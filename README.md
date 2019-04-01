@@ -2,4 +2,4 @@
 Core Lab repo
 
 Project Name: Test
-This is an inclass exercise \(= o =)/
+This is an inclass exercise (= o =)/
