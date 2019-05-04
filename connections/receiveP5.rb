@@ -1,3 +1,4 @@
+# Welcome to Sonic Pi v3.1
 
 ##| run this after setting up visuals and Serial
 ##| command-r: start, commend-s: stop
@@ -7,10 +8,10 @@ set_sched_ahead_time! 0.0001
 use_debug false
 
 ##| change path to your local files (need to be complete paths)
-amb = "/Users/yanwendong/Desktop/CoreLab/final/test/connections/amb.wav"
-bird = "/Users/yanwendong/Desktop/CoreLab/final/test/connections/bird.wav"
-cricket1 = "/Users/yanwendong/Desktop/CoreLab/final/test/connections/cricket.wav"
-cricket2 = "/Users/yanwendong/Desktop/CoreLab/final/test/connections/cricket2.wav"
+##|amb = "/Users/yanwendong/Desktop/CoreLab/final/test/connections/amb.wav"
+##|bird = "/Users/yanwendong/Desktop/CoreLab/final/test/connections/bird.wav"
+cricket1 = "/Users/RianIshikawa/Desktop/CoreLab_Spring19/connections/cricket.wav"
+cricket2 = "/Users/RianIshikawa/Desktop/CoreLab_Spring19/connections/cricket2.wav"
 
 am = 0 ##| global var for pot amplitude
 am2 = 0
@@ -24,7 +25,7 @@ end
 
 live_loop :p2 do
   po_2 = sync "/osc/toPi"
-  am2 = po_2[4]*0.001
+  am2 = po_2[4]*0.005
 end
 
 ##| pot 1: play cricket sounds
@@ -75,8 +76,8 @@ live_loop :b2 do
     [3, 4].each do |d|
       (range -1, 1).each do |i|
         play_chord (chord_degree d, :c, :major_pentatonic, 2, invert: i),
-          release: 0.5, amp: 5
-        sleep 0.25
+          attack: 1, release: 2, amp: 0.5
+        sleep 1
       end
     end
   end
@@ -95,7 +96,3 @@ live_loop :b3 do
     end
   end
 end
-
-
-
-

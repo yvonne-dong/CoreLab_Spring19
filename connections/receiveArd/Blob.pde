@@ -92,6 +92,6 @@ class Blob {
       popMatrix();
     }
     fill(0);
-    ellipse(pos.x, pos.y, 100, 100); //covering out the center for projection
+    //ellipse(pos.x, pos.y, 70, 70); //covering out the center for projection
   }
 }

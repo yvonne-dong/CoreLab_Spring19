@@ -6,14 +6,16 @@
 */
 
 //libraries
-import codeanticode.syphon.*; //send Processing to Mad Mapper
+//import codeanticode.syphon.*; //send Processing to Mad Mapper
 import processing.serial.*; //read Serial from Arduino
 import oscP5.*; //send OSC to Sonic Pi
 import netP5.*; //send OSC to Sonic Pi (net)
 
 //** not sure if we need them but I'll leave them for now
 import controlP5.*; //send OSC to Sonic Pi (control P5)
+import codeanticode.syphon.*;
 
+SyphonServer server;
 //set up OSC port
 OscP5 oscP5; 
 NetAddress sonicPi;
@@ -46,13 +48,13 @@ ArrayList<Blob> blobs = new ArrayList<Blob>();
 void setup() {
 
   //would be fullScreen
-  size(600, 600);
-  //fullScreen();
+  //size(600, 600, P3D);
+  fullScreen(P3D);
 
   //initiate OSC
   oscP5 = new OscP5(this, 8000); //listening on this port
   sonicPi = new NetAddress("127.0.0.1", 4559);
-
+  server = new SyphonServer(this, "Processing Syphon");
   //initiate visuals
   int b = 160; //add position to fit in grid for projection mapping
 
@@ -74,7 +76,7 @@ void setup() {
   push = 0; //** do I need this for counting?
 
   //initiate Serial
-  String portName = Serial.list()[1];
+  String portName = Serial.list()[7];
   myPort = new Serial(this, portName, 9600);
 }
 
@@ -92,7 +94,9 @@ void draw() {
   } 
 
   //call serial function
+  
   serialEvent(myPort); //** check income signal here or change to ArrayList?
+  server.sendScreen();
 }
 
 //function to send OSC signal
@@ -164,14 +168,17 @@ void potEvent(int whichPot, int pot) {
 
 void serialEvent(Serial myPort) {
   if ( myPort.available() > 0) { 
-    val = myPort.readStringUntil('\n');     
+    val = myPort.readStringUntil('\n'); 
+    
+    println("gfjfk");
+    
     if (val != null) {
       val = trim(val);
       if (int(split(val, ".")).length == 5) {
         nums = int(split(val, "."));
       }
 
-
+      //println(val);
       for (int i = 0; i < nums.length; i ++) {
         if (nums[i] != cNums[i]) {
           cNums[i] = nums[i];
